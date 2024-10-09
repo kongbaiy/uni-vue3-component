@@ -36,6 +36,6 @@ function handleCodeButtonStart(next: () => void) {
 
 <style lang="scss" scoped>
 .btn {
-  @apply text-lg bg-[var(--color-primary)] h56;
+  @apply bg-[var(--color-primary)] h56;
 }
 </style>
