@@ -24,8 +24,18 @@ export default async () => {
           transformerAttributify(),
           transformerClass(),
           transformerDirective(),
-
         ],
+
+        theme: {
+          fontSize: {
+            'xs': ['20rpx', '32rpx'],
+            'sm': ['24rpx', '36rpx'],
+            'base': ['28rpx', '40rpx'],
+            'lg': ['32rpx', '44rpx'],
+            'xl': ['36rpx', '48rpx'],
+            '2xl': ['40rpx', '52rpx'],
+          },
+        },
       }),
     ],
     resolve: {
