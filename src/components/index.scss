@@ -1,14 +1,2 @@
-button {
-    margin: 0;
-    border-style: none;
-}
-
-button::after {
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-.button-hover {
-    background: transparent;
-}
+@import url('../assets/css/reset.css');
+@import url('../assets/css/var.css');
