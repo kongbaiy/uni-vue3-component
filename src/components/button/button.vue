@@ -138,21 +138,20 @@ function getButtonClass(): string {
 
 <style lang="scss" scoped>
 .button {
-  @apply flex items-center justify-center px-36;
+  @apply flex items-center justify-center px-36rpx;
 }
 
 .primary {
-  @apply text-white bg-theme;
+  @apply text-white bg-[var(--color-primary)];
 }
 
 .danger {
-  color: #fff;
-  background: var(--color-error);
+  @apply text-white bg-[var(--color-error)];
 }
 
 .stop {
-  color: #fff;
-  background: var(--color-stop);
+  @apply text-white bg-[var(--color-stop)];
+
 }
 
 .plain {

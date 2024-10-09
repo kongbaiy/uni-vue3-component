@@ -27,6 +27,6 @@ function handleDelete() {
 
 <style lang="scss" scoped>
   .delete {
-    @apply flex flex-col justify-center items-center w-140 h-full color-white bg-#FF4433;
+    @apply flex flex-col justify-center items-center w-140rpx h-full color-white bg-[var(--color-error)];
   }
 </style>

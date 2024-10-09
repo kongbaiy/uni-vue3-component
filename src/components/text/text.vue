@@ -86,7 +86,7 @@ function getTextContainerStyle() {
 
 <style lang="scss" scoped>
   .content {
-    @apply text-base color-h1 text;
+    @apply text-base color-[var(--color-h1)];
   }
 
   .ellipsis {
@@ -94,6 +94,6 @@ function getTextContainerStyle() {
   }
 
   .expand {
-    @apply flex items-center justify-center mt-8 text-sm color-theme;
+    @apply flex items-center justify-center mt-8rpx text-sm color-[var(--color-primary)];
   }
 </style>

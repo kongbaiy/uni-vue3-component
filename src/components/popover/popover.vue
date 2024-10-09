@@ -220,18 +220,18 @@ defineExpose({
   }
 
   .popover-list {
-    @apply opacity-0 absolute z-62 p-16 bg-white rd-16 translate-y-0 transition-all-200;
+    @apply opacity-0 absolute z-62 p-16rpx bg-white rd-16rpx translate-y-0 transition-all-200;
   }
 
   .popover-list-item {
-      @apply p-y-10 p-x-36 text-base text-h1;
+      @apply p-y-10rpx p-x-36rpx text-base text-[var(--color-h1)];
       &:nth-child(n + 2) {
-        @apply mt-8;
+        @apply mt-8rpx;
       }
   }
 
   .popover-list-item__active {
-      @apply color-theme bg-[rgba(64,158,255,0.08)];
+      @apply color-[var(--color-primary)] bg-[rgba(64,158,255,0.08)];
   }
 
   .popover-position__top .popover-list {
@@ -240,7 +240,7 @@ defineExpose({
 
   .popover-position__top .popover-list::after {
       content: "";
-      @apply absolute top-99% w-0 h-0 b-14 b-solid b-transparent b-t-white;
+      @apply absolute top-99% w-0 h-0 b-14rpx b-solid b-transparent b-t-white;
   }
 
   .popover-position__bottom .popover-list {
@@ -249,7 +249,7 @@ defineExpose({
 
   .popover-position__bottom .popover-list::after {
       content: "";
-      @apply absolute bottom-99% w-0 h-0 b-14 b-solid b-transparent b-b-white;
+      @apply absolute bottom-99% w-0 h-0 b-14rpx b-solid b-transparent b-b-white;
   }
 
   .popover-position__left .popover-list {
@@ -257,7 +257,7 @@ defineExpose({
   }
 
   .popover-position__left .popover-list::after {
-      @apply left-20;
+      @apply left-20rpx;
   }
 
   .popover-position__right .popover-list {

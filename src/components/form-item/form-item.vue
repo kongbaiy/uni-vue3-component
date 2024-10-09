@@ -2,10 +2,13 @@
   <view :class="getContainerClass(newLayout as Layout)">
     <view
       :style="{ width: newLabelWidth }"
-      class="text-base text-h1"
+      class="label"
     >
       {{ label }}
-      <text v-if="required" class="color-error">
+      <text
+        v-if="required"
+        class="required"
+      >
         *
       </text>
     </view>
@@ -13,7 +16,7 @@
       <slot />
     </view>
   </view>
-  <view class="text-base text-error">
+  <view class="message">
     <text v-if="message.length">
       {{ message }}
     </text>
@@ -60,3 +63,18 @@ defineExpose({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.label {
+  @apply text-base text-[var(--color-h1)];
+}
+
+.required,
+.message {
+  @apply text-[var(--color-error)];
+}
+
+.message {
+  @apply text-base;
+}
+</style>

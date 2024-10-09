@@ -19,7 +19,7 @@
     >
       {{ title }}
       <img
-        src="@/assets/images/delete@2x.png"
+        src="../../assets/images/delete@2x.png"
         alt="关闭"
         class="popup-close"
         @click="handleClose"
@@ -108,11 +108,11 @@ function handleTransitionend() {
   }
 
   .popup-header {
-    @apply relative mt-40 text-xl text-center color-h1;
+    @apply relative mt-40rpx text-xl text-center color-[var(--color-h1)];
   }
 
   .popup-bottom {
-    @apply left-0 bottom-0 translate-y-100% w-full bg-white rd-t-32 transition-all-200;
+    @apply left-0 bottom-0 translate-y-100% w-full bg-white rd-t-32rpx transition-all-200;
   }
 
   .popup-bottom__active {
@@ -120,11 +120,11 @@ function handleTransitionend() {
   }
 
   .popup-content {
-    @apply flex-1 overflow-y-scroll mt-32 px-56;
+    @apply flex-1 overflow-y-scroll mt-32rpx px-56rpx;
     -webkit-overflow-scrolling: touch;
   }
 
   .popup-close {
-    @apply absolute top-[-14] right-32 w-36 h-36;
+    @apply absolute top-[-14rpx] right-32rpx w-36rpx h-36rpx;
   }
   </style>
