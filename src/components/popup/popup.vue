@@ -19,7 +19,7 @@
     >
       {{ title }}
       <img
-        src="../../assets/images/delete@2x.png"
+        src="../assets/images/delete@2x.png"
         alt="关闭"
         class="popup-close"
         @click="handleClose"

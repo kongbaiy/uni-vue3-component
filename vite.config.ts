@@ -7,19 +7,7 @@ import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/tran
 
 const { presetWeappAttributify, transformerAttributify } = extractorAttributify()
 
-function copyAssets() {
-  return {
-    enforce: 'post',
-    async writeBundle() {
-      await fs.copy(
-        path.join(__dirname, '/src/assets'),
-        path.join(__dirname, '/package/assets'),
-      )
-    },
-  } as unknown as PluginOption
-}
-
-function copyComponents() {
+function copyFile() {
   return {
     enforce: 'post',
     async writeBundle() {
@@ -52,8 +40,7 @@ export default async () => {
           transformerDirective(),
         ],
       }),
-      copyAssets(),
-      copyComponents(),
+      copyFile(),
     ],
     resolve: {
       alias: {
