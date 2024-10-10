@@ -151,7 +151,6 @@ function getButtonClass(): string {
 
 .stop {
   @apply text-white bg-[var(--color-stop)];
-
 }
 
 .plain {

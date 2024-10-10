@@ -20,14 +20,14 @@
       <view>adc</view>
     </template>
   </popover>
-
-  <custom-button type="warning">
+<!--
+  <custom-button type="danger">
     warning
-  </custom-button>
+  </custom-button> -->
 </template>
 
 <script lang="ts" setup>
-import customButton from '../../components/button/button.vue'
+// import customButton from 'uni-vue3-components/src/components/button/button.vue'
 
 function handleCodeButtonStart(next: () => void) {
   next()
