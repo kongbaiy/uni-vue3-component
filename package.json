@@ -1,20 +1,11 @@
 {
-  "name": "uni-vue3-components",
-  "version": "3.2.0",
-  "description": "vue uni base component",
+  "name": "uni-comps-vue3",
+  "version": "1.0.0",
+  "description": "uniapp vue3 component",
   "author": "konbai",
   "license": "MIT",
-  "exports": {
-    "./src/components/index.css": "./src/components/index.css",
-    "./css": "./src/components/index.css",
-    ".": {
-      "import": "./src/components/index.ts"
-    }
-  },
-  "main": "./src/components/index.ts",
   "files": [
-    "src/assets",
-    "src/components"
+    "package"
   ],
   "scripts": {
     "dev:app": "uni -p app",
@@ -90,11 +81,13 @@
     "@dcloudio/uni-stacktracey": "3.0.0-4020420240722002",
     "@dcloudio/vite-plugin-uni": "3.0.0-4020420240722002",
     "@eslint/js": "^9.8.0",
+    "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.7.2",
     "@vue/runtime-core": "^3.4.21",
     "@vue/tsconfig": "^0.1.3",
     "eslint": "^9.8.0",
     "eslint-plugin-vue": "^9.27.0",
+    "fs-extra": "^11.2.0",
     "globals": "^15.8.0",
     "sass-loader": "^16.0.0",
     "stylelint": "^16.8.0",

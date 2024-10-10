@@ -1,9 +1,35 @@
 import path from 'node:path'
+import fs from 'fs-extra'
+import type { PluginOption } from 'vite'
 import { defineConfig } from 'vite'
 import uni from '@dcloudio/vite-plugin-uni'
 import { extractorAttributify, transformerClass } from 'unocss-preset-weapp/transformer'
 
 const { presetWeappAttributify, transformerAttributify } = extractorAttributify()
+
+function copyAssets() {
+  return {
+    enforce: 'post',
+    async writeBundle() {
+      await fs.copy(
+        path.join(__dirname, '/src/assets'),
+        path.join(__dirname, '/package/assets'),
+      )
+    },
+  } as unknown as PluginOption
+}
+
+function copyComponents() {
+  return {
+    enforce: 'post',
+    async writeBundle() {
+      await fs.copy(
+        path.join(__dirname, '/src/components'),
+        path.join(__dirname, '/package'),
+      )
+    },
+  } as unknown as PluginOption
+}
 
 export default async () => {
   const UnoCSS = (await import('unocss/vite')).default
@@ -26,6 +52,8 @@ export default async () => {
           transformerDirective(),
         ],
       }),
+      copyAssets(),
+      copyComponents(),
     ],
     resolve: {
       alias: {
