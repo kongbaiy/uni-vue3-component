@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import SlideAction from './action.vue'
+import SlideAction from '../slide-action/slide-action.vue'
 
 const emits = defineEmits(['delete'])
 const slideActionRef = ref()
