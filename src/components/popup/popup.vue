@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup name="Popup">
-import { type Ref, ref, watch } from 'vue'
+import { type Ref, ref, watch, watchPostEffect } from 'vue'
 import { NodeSelector } from '../common/index'
 
 type Position = 'top' | 'bottom' | 'center' | 'right' | 'left'
@@ -72,17 +72,17 @@ const show = ref<boolean>(false)
 const active: Ref = ref<boolean>(false)
 const getNode = new NodeSelector()
 
-watch(props, (newProps: IProps) => {
-  if (newProps.modelValue) {
-    show.value = true
+watch(() => props.modelValue, (newValue: IProps['modelValue']) => {
+  if (newValue) show.value = true
+  else active.value = false
+})
+
+watchPostEffect(() => {
+  if (show.value) {
     getNode.query('.popup', () => {
-      active.value = newProps.modelValue
+      active.value = true
     })
-  } else {
-    active.value = false
   }
-}, {
-  deep: true,
 })
 
 function handleClose() {
@@ -96,7 +96,7 @@ function handleTransitionend() {
 
   <style lang="scss" scoped>
   .popup-mask {
-    @apply opacity-0 fixed top-0 left-0 z-30 w-full h-full bg-[rgba(0,0,0,0.3)] transition-all-200;
+    @apply opacity-0 fixed top-0 left-0 z-30 w-full h-full bg-[rgba(0,0,0,0.3)] transition-opacity-200;
   }
 
   .popup-mask__active {
@@ -112,7 +112,7 @@ function handleTransitionend() {
   }
 
   .popup-bottom {
-    @apply left-0 bottom-0 translate-y-100% w-full bg-white rd-t-32rpx transition-all-200;
+    @apply left-0 bottom-0 translate-y-100% w-full bg-white rd-t-32rpx transition-transform;
   }
 
   .popup-bottom__active {
@@ -125,6 +125,6 @@ function handleTransitionend() {
   }
 
   .popup-close {
-    @apply absolute top-[-14rpx] right-32rpx w-36rpx h-36rpx;
+    @apply absolute top--14rpx right-32rpx w-36rpx h-36rpx;
   }
   </style>

@@ -2,6 +2,7 @@
   <view class="btn">
     view
   </view>
+
   <verify-code
     :delay="60"
     @start="handleCodeButtonStart"
@@ -20,14 +21,22 @@
       <view>adc</view>
     </template>
   </popover>
-<!--
-  <custom-button type="danger">
-    warning
-  </custom-button> -->
+
+  <button @click="popupVisible = true">
+    open popup
+  </button>
+
+  <popup v-model="popupVisible" show-mask>
+    <view style="height: 200px;">
+      popup
+    </view>
+  </popup>
 </template>
 
 <script lang="ts" setup>
-// import customButton from 'uni-vue3-components/src/components/button/button.vue'
+import { ref } from 'vue'
+
+const popupVisible = ref<boolean>(false)
 
 function handleCodeButtonStart(next: () => void) {
   next()
