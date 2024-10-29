@@ -104,7 +104,7 @@ function handleTransitionend() {
   }
 
   .popup {
-    @apply of-hidden flex-col fixed z-32 transition-all-200;
+    @apply of-hidden flex flex-col fixed z-32 transition-all-200;
   }
 
   .popup-header {

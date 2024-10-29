@@ -138,7 +138,7 @@ function getButtonClass(): string {
 
 <style lang="scss" scoped>
 .button {
-  @apply flex items-center justify-center px-36rpx;
+  @apply flex items-center justify-center px-36;
 }
 
 .primary {
