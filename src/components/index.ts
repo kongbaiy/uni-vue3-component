@@ -1,5 +1,3 @@
-import type { App, Component } from 'vue'
-
 import button from './button/button.vue'
 import form from './form/form.vue'
 import formItem from './form-item/form-item.vue'
@@ -23,27 +21,3 @@ export {
   text,
   verifyCode,
 }
-
-const components: Component = [
-  button,
-  form,
-  formItem,
-  popover,
-  popup,
-  slideAction,
-  slideDelete,
-  tabNav,
-  text,
-  verifyCode,
-]
-
-const componentPlugin = {
-  install(app: App, prefix: string) {
-    components.forEach((component: Component | any) => {
-      const name = prefix ? `${prefix}-${component.__name}` : component.__name
-      app.component(name, component)
-    })
-  },
-}
-
-export default componentPlugin
