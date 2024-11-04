@@ -1,8 +1,4 @@
 <template>
-  <view class="btn">
-    view
-  </view>
-
   <verify-code
     :delay="60"
     @start="handleCodeButtonStart"
@@ -22,11 +18,42 @@
     </template>
   </popover>
 
-  <button @click="popupVisible = true">
-    open popup
-  </button>
+  <btn
+    plain
+    type="primary"
+  >
+    Button
+  </btn>
 
-  <popup v-model="popupVisible" show-mask>
+  <ks-form
+    line-height="100"
+    border-color="blue"
+    label-width="113rpx"
+    label-align="justify"
+  >
+    <ks-form-item label="所属机构" border>
+      <input
+        type="text"
+        placeholder="请选择所属机构"
+        class="form-input"
+      >
+    </ks-form-item>
+
+    <picker>
+      <ks-form-item label="姓名" border>
+        <input
+          type="text"
+          placeholder="请输入姓名"
+          class="form-input"
+        >
+      </ks-form-item>
+    </picker>
+  </ks-form>
+
+  <popup
+    v-model="popupVisible"
+    show-mask
+  >
     <view style="height: 200px;">
       popup
     </view>
@@ -36,15 +63,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
+import btn from '../../components/button/button.vue'
+
 const popupVisible = ref<boolean>(false)
 
 function handleCodeButtonStart(next: () => void) {
   next()
 }
 </script>
-
-<style lang="scss" scoped>
-.btn {
-  @apply bg-[var(--color-primary)] h56;
-}
-</style>

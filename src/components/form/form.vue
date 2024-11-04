@@ -15,6 +15,10 @@ interface IProps extends Pick<IFormValidatorOptions, 'rules'> {
   layout?: Layout
   modelValue: any
   promptMode: PromptMode
+  width?: string
+  align?: string
+  gap?: string
+  lineHeight?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -26,7 +30,7 @@ const instance: ComponentInternalInstance | any = getCurrentInstance()
 defineExpose({
   ...props,
   validate: (callback: <T>(data: T) => void) => {
-    const { rules, modelValue: formData = {} } = props
+    const { modelValue: formData = {}, rules, promptMode } = props
     const children = instance.proxy?.$children
 
     children.forEach((item: any) => item?.setErrorMessage?.(''))
@@ -37,7 +41,7 @@ defineExpose({
     }).then(callback).catch((error) => {
       const { currentRule } = error
 
-      if (props.promptMode === 'toast') {
+      if (promptMode === 'toast') {
         uni.showToast({
           title: currentRule.message,
           icon: 'none',
@@ -54,3 +58,11 @@ defineExpose({
   },
 })
 </script>
+
+<style lang="scss" scoped>
+.form-item {
+  &:last-child {
+    border-color: transparent;
+  }
+}
+</style>

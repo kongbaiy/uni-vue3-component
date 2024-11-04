@@ -1,29 +1,25 @@
 <template>
-  <view
-    :class="getButtonBoxClass()"
+  <button
+    :open-type="openType"
+    :form-type="formType"
+    :disabled="disabled"
+    :loading="loading"
+    :style="getButtonStyle()"
+    :class="getButtonClass()"
+    hover-class="button__hover"
+    @getphonenumber="emits('getphonenumber', $event)"
+    @getuserinfo="emits('getuserinfo', $event)"
+    @chooseavatar="emits('chooseavatar', $event)"
+    @click="handleClick"
   >
-    <button
-      :open-type="openType"
-      :form-type="formType"
-      :disabled="disabled"
-      :loading="loading"
-      :style="getButtonStyle()"
-      :class="getButtonClass()"
-      hover-class="button__hover"
-      @getphonenumber="handleGetPhoneNumber"
-      @getuserinfo="handleGetUserInfo"
-      @chooseavatar="handleChooseavatar"
-      @click="handleClick"
-    >
-      <slot />
-    </button>
-  </view>
+    <slot />
+  </button>
 </template>
 
 <script lang="ts">
-import { type ComponentInternalInstance, getCurrentInstance, ref } from 'vue'
-import { getMapValue } from '../common'
-import { heightMap, sizeMap, typeMap } from './map'
+import { type ComponentInternalInstance, getCurrentInstance } from 'vue'
+import type { FormType, Size, Type } from '../common/type/button'
+import { fontSizes, sizes, styles } from '../common/config'
 
 export default {
   behaviors: ['wx://form-field-button'],
@@ -31,25 +27,23 @@ export default {
 </script>
 
 <script lang="ts" setup>
-type Type = 'primary' | 'success' | 'warning' | 'danger' | 'stop'
+interface IConfig {
+  paddingLeft?: string
+  paddingRight?: string
+}
 
-type FormType = 'submit' | 'reset'
-
-type Size = 'mini' | 'small' | 'normal' | 'large'
-
-interface IProps {
+interface IProps extends IConfig {
   type?: Type
   size?: Size
   block?: boolean
   plain?: boolean
-  shadow?: string
   color?: string
   borderColor?: string
   background?: string
+  shadow?: string
   radius?: string
   restyle?: AnyObject | string
   disabled?: boolean
-  className?: string
   loading?: boolean
   openType?: string
   formType?: FormType
@@ -57,29 +51,17 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   size: 'small',
+  paddingLeft: '36rpx',
+  paddingRight: '36rpx',
+  radius: '0',
+  ...styles.button,
 })
-const emits = defineEmits(['getphonenumber', 'getuserinfo', 'chooseavatar', 'submit', 'reset'])
+const emits = defineEmits(['getphonenumber', 'getuserinfo', 'chooseavatar', 'submit', 'reset', 'click'])
+
 const instance: ComponentInternalInstance | any = getCurrentInstance()
 
-const newButtonClass = ref<string>(
-  getMapValue([
-    sizeMap,
-    heightMap,
-    typeMap,
-  ], [props.size, props.type as string]),
-)
-
-function handleGetPhoneNumber(e: CustomEventInit) {
-  emits('getphonenumber', e)
-}
-
-function handleGetUserInfo(e: CustomEventInit) {
-  emits('getuserinfo', e)
-}
-
-function handleChooseavatar(e: CustomEventInit) {
-  emits('chooseavatar', e)
-}
+const buttonHeight = sizes[props.size]
+const buttonFontSize = fontSizes[props.size]
 
 function handleClick() {
   const { formType } = props
@@ -94,45 +76,35 @@ function handleClick() {
       exposed?.resetForm?.()
       break
   }
+
+  emits('click')
 }
 
-function getButtonBoxClass() {
-  const { block, loading } = props
-  const classNames = ['v-top']
-
-  if (!block) classNames.push('inline-block')
-  if (loading) classNames.push('pointer-events-none')
-
-  return classNames.join(' ')
-}
-
-function getButtonStyle(): string | AnyObject {
-  const { radius, size, color, borderColor, background, shadow, restyle } = props
+function getButtonStyle(): AnyObject {
+  const { restyle, color, borderColor, background, radius, shadow } = props
 
   if (restyle) return restyle
 
-  const height: number = heightMap[size]?.replace(/h|-/g, '')
-  const defaultRadius = `${height / 2 + 1}rpx`
-  const style: AnyObject = {
-    borderRadius: radius || defaultRadius,
+  return {
+    color,
+    borderColor,
+    background,
+    borderRadius: radius,
+    shadow,
   }
-
-  if (color) style.color = color
-  if (borderColor) style.borderColor = borderColor
-  if (background) style.background = background
-  if (shadow) style.boxShadow = shadow
-
-  return style
 }
 
 function getButtonClass(): string {
-  const { restyle, plain, disabled, className = '' } = props
+  const { restyle, plain, disabled, type, block, loading } = props
+  const classNames = ['button', 'text-top', `${type}`]
+
   if (restyle) return ''
+  if (!block) classNames.push('inline-block')
+  if (loading) classNames.push('events-none')
+  if (plain) classNames.push(`plain plain-${type}`)
+  if (disabled) classNames.push('button__disabled')
 
-  const plainClass = plain ? `plain plain-${props.type}` : ''
-  const disabledClass = disabled ? 'button__disabled' : ''
-
-  return `button ${newButtonClass.value} ${plainClass} ${disabledClass} ${className}`
+  return classNames.join(' ')
 }
 </script>
 
@@ -141,8 +113,10 @@ function getButtonClass(): string {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-left: 36rpx;
-  padding-right: 36rpx;
+  padding-left: v-bind(paddingLeft);
+  padding-right: v-bind(paddingRight);
+  height: v-bind(buttonHeight);
+  font-size: v-bind(buttonFontSize);
 }
 
 .primary {
@@ -151,34 +125,51 @@ function getButtonClass(): string {
 }
 
 .danger {
-  @apply text-white bg-[var(--color-error)];
+  color: white;
+  background-color: var(--color-error)
 }
 
 .stop {
-  @apply text-white bg-[var(--color-stop)];
+  color: white;
+  background-color: var(--color-stop);
 }
 
 .plain {
-  @apply bg-transparent;
+  background-color: transparent;
 }
 
 .plain-primary {
-  @apply color-[var(--color-primary)] b-1 b-solid b-[var(--color-primary)];
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
 .plain-danger {
-  @apply color-[var(--color-error)] b-1 b-solid b-[var(--color-error)];
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
 }
 
 .plain-stop {
-  @apply color-[var(--color-stop)] b-1 b-solid b-[var(--color-stop)];
+  color: var(--color-stop);
+  border: 1px solid var(--color-stop);
 }
 
 .button__hover {
-  @apply important-op-60;
+  opacity: 0.6;
 }
 
 .button__disabled {
-  @apply b-transparent;
+  border-color: transparent;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.events-none {
+  pointer-events: none;
+}
+
+.text-top {
+  vertical-align: top;
 }
 </style>

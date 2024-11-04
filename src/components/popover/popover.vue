@@ -204,92 +204,125 @@ defineExpose({
   .popover {
     --offset-y: v-bind(getOffsetY());
     --offset-x: v-bind(getOffsetX());
-    @apply relative inline-block vertical-middle;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   .popover-block {
-    @apply block;
+    display: block;
   }
 
   .popover-guide {
-    @apply z-62;
+    z-index: 62;
   }
 
   .popover-content-guide {
-    @apply relative z-90 bg-white;
+    position: relative;
+    z-index: 90;
+    background-color: white;
   }
 
   .popover-list {
-    @apply opacity-0 absolute z-62 p-16rpx bg-white rd-16rpx translate-y-0 transition-all-200;
+    opacity: 0;
+    position: absolute;
+    z-index: 62;
+    padding: 16rpx;
+    background-color: white;
+    border-radius: 16rpx;
+    transform: translateY(0);
+    transition: all 200ms;
   }
 
   .popover-list-item {
-      @apply p-y-10rpx p-x-36rpx text-base text-[var(--color-h1)];
+      padding: 10rpx 36rpx;
+      color: var(--color-h1);
+      font-size: 32rpx;
       &:nth-child(n + 2) {
-        @apply mt-8rpx;
+        margin-top: 8rpx;
       }
   }
 
   .popover-list-item__active {
-      @apply color-[var(--color-primary)] bg-[rgba(64,158,255,0.08)];
+      color: var(--color-primary);
+      background-color: rgba(64,158,255,0.08);
   }
 
   .popover-position__top .popover-list {
-      @apply bottom-80%;
+      bottom: 80%;
   }
 
   .popover-position__top .popover-list::after {
       content: "";
-      @apply absolute top-99% w-0 h-0 b-14rpx b-solid b-transparent b-t-white;
+      position: absolute;
+      top: 99%;
+      width: 0;
+      height: 0;
+      border: 14rpx solid transparent;
+      border-top-color: white;
   }
 
   .popover-position__bottom .popover-list {
-      @apply top-80%;
+      top: 80%;
   }
 
   .popover-position__bottom .popover-list::after {
       content: "";
-      @apply absolute bottom-99% w-0 h-0 b-14rpx b-solid b-transparent b-b-white;
+      position: absolute;
+      bottom: 99%;
+      width: 0;
+      height: 0;
+      border: 14rpx solid transparent;
+      border-bottom-color: white;
   }
 
   .popover-position__left .popover-list {
-      @apply left-[var(--offset-x)];
+      left: var(--offset-x);
   }
 
   .popover-position__left .popover-list::after {
-      @apply left-20rpx;
+      left: 20rpx;
   }
 
   .popover-position__right .popover-list {
-      @apply right-[var(--offset-x)];
+      right: var(--offset-x);
   }
 
   .popover-position__right .popover-list::after {
-      @apply right-20;
+      right: 20rpx;
   }
 
   .popover-position__top .popover-list__active {
     --y: calc(var(--offset-y) * -1);
-      @apply opacity-100 translate-y-[var(--y)];
+      opacity: 1;
+      transform: translateY(var(--y))
   }
 
   .popover-position__bottom .popover-list__active {
-      @apply opacity-100 translate-y-[var(--offset-y)];
+      opacity: 1;
+      transform: translateY(var(--offset-y))
   }
 
   .popover-list-item__disabled {
-    @apply opacity-30;
+    opacity: 0.3;
   }
 
   .popover-mask {
-      @apply opacity-0 fixed top-0 left-0 z-60 w-full h-full transition-all-200;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 60;
+      width: 100%;
+      height: 100%;
+      transition: all 200ms;
   }
 
   .popover-mask__active {
-      @apply opacity-100;
+      opacity: 1;
   }
 
   .popover-mask__show {
-      @apply bg-[rgba(0,0,0,0.3)];
+      background-color: rgba(0,0,0,0.3);
   }
   </style>
