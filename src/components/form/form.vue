@@ -4,10 +4,16 @@
   </form>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import { type ComponentInternalInstance, getCurrentInstance } from 'vue'
 import { type IFormValidatorOptions, formValidator } from './validator'
 
+export default {
+  behaviors: ['wx://form-field', 'wx://form-field-group', 'wx://form-field-button'],
+}
+</script>
+
+<script lang="ts" setup>
 export type PromptMode = 'toast' | 'message'
 export type Layout = 'left' | 'right' | 'top'
 
@@ -15,10 +21,10 @@ interface IProps extends Pick<IFormValidatorOptions, 'rules'> {
   layout?: Layout
   modelValue: any
   promptMode: PromptMode
-  width?: string
+  labelWidth?: string
+  labelGap?: string
   align?: string
   gap?: string
-  lineHeight?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -33,7 +39,16 @@ defineExpose({
     const { modelValue: formData = {}, rules, promptMode } = props
     const children = instance.proxy?.$children
 
-    children.forEach((item: any) => item?.setErrorMessage?.(''))
+    children.forEach((item: any) => {
+      const rule = rules[item.prop]
+
+      if (item.required && item.prop) {
+        if (!rule?.length) rules[item.prop] = [{ message: '值不能未空', required: true }]
+        else rule[0].required = true
+      }
+
+      item.setErrorMessage?.('')
+    })
 
     formValidator({
       formData,

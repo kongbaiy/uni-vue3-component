@@ -1,18 +1,15 @@
 <template>
   <view :class="getContainerClass(newLayout as Layout)">
-    <view
-      :style="labelStyle"
-      class="label"
-    >
-      {{ label }}
-      <text
-        v-if="required"
-        class="required"
-      >
+    <view class="label">
+      <text v-if="required" class="required">
         *
       </text>
+      <view :style="labelStyle" class="label-text">
+        {{ label }}
+      </view>
     </view>
-    <view>
+
+    <view class="value">
       <slot />
     </view>
   </view>
@@ -34,42 +31,41 @@ interface IProps {
   label?: string
   required?: boolean
   layout?: Layout
-  labelClass?: string
-  width?: string | number
+  labelWidth?: string
+  labelGap?: string
   align?: string
-  gap?: string
-  lineHeight?: string
   border?: boolean
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   layout: 'left',
-  width: 'auto',
+  labelWidth: 'auto',
 })
 const instance: ComponentInternalInstance | any = getCurrentInstance()
 
 const { exposed } = instance.parent || {}
+const { gap } = exposed
 const newLayout: IProps['layout'] = (exposed?.layout || props.layout) as Layout
 const message = ref<string>('')
 
 const labelStyle = computed(() => {
-  const { width, align, gap } = props
+  const { labelWidth, align, labelGap } = props
 
   return {
-    width: exposed?.width || width,
+    width: exposed?.labelWidth || labelWidth,
     textAlignLast: exposed?.align || align,
-    marginRight: exposed?.gap || gap,
+    marginRight: exposed?.labelGap || labelGap,
   }
 })
 
 function getContainerClass(layout: Layout) {
-  const _unocss = {
-    left: 'flex',
-    right: 'flex text-right',
-    top: 'flex flex-col',
+  const layoutClass = {
+    left: 'layout-left',
+    right: 'layout-right',
+    top: 'layout-top',
   }
 
-  return `${_unocss[layout]} ${props.labelClass || ''}`
+  return `layout ${layoutClass[layout]}`
 }
 
 defineExpose({
@@ -81,18 +77,8 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.label {
-  @apply text-base;
-  color: var(--color-h1);
-}
-
-.required,
-.message {
-  color: var(var(--color-error));
-}
-
-.message {
-  @apply text-base;
+.layout {
+  margin-bottom: v-bind(gap);
 }
 
 .layout-left {
@@ -101,11 +87,37 @@ defineExpose({
 
 .layout-right {
   display: flex;
-  text-align: right;
+  .label-text {
+    text-align: right;
+  }
 }
 
 .layout-top {
   display: flex;
   flex-direction: column;
+}
+
+.label {
+  display: flex;
+}
+
+.label-text {
+  @apply text-base;
+  color: var(--color-h1);
+}
+
+.value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.required,
+.message {
+  color: var(--color-error);
+}
+
+.message {
+  @apply text-base;
 }
 </style>
