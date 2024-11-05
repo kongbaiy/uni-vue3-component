@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { type ComponentInternalInstance, getCurrentInstance } from 'vue'
+import { type ComponentInternalInstance, getCurrentInstance, isReactive } from 'vue'
 import { type IFormValidatorOptions, formValidator } from './validator'
 
 export default {
@@ -30,7 +30,7 @@ interface IProps extends Pick<IFormValidatorOptions, 'rules'> {
 const props = withDefaults(defineProps<IProps>(), {
   promptMode: 'message',
 })
-const emits = defineEmits<(e: 'update:modelValue', value: any) => void>()
+const emits = defineEmits<(e: 'update:modelValue', value?: AnyObject) => void>()
 const instance: ComponentInternalInstance | any = getCurrentInstance()
 
 defineExpose({
@@ -69,6 +69,14 @@ defineExpose({
     })
   },
   resetForm: () => {
+    if (isReactive(props.modelValue)) {
+      for (const i in props.modelValue) {
+        props.modelValue[i]! = null
+      }
+
+      return
+    }
+
     emits('update:modelValue', {})
   },
 })

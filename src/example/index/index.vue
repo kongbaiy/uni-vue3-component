@@ -57,6 +57,10 @@
     <zs-button block type="primary" @click="handleSubmit">
       提交
     </zs-button>
+
+    <zs-button block type="primary" @click="handleReset">
+      重置
+    </zs-button>
   </zs-form>
 
   <popup
@@ -99,5 +103,9 @@ function handleSubmit() {
   form.value.validate(() => {
     console.log('yes')
   })
+}
+
+function handleReset() {
+  form.value.resetForm()
 }
 </script>
