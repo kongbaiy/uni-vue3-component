@@ -96,7 +96,7 @@ function getButtonStyle(): AnyObject {
 
 function getButtonClass(): string {
   const { restyle, plain, disabled, type, block, loading } = props
-  const classNames = ['button', 'text-top', `${type}`]
+  const classNames = ['button', `${type}`]
 
   if (restyle) return ''
   if (!block) classNames.push('inline-block')
@@ -117,6 +117,8 @@ function getButtonClass(): string {
   padding-right: v-bind(paddingRight);
   height: v-bind(buttonHeight);
   font-size: v-bind(buttonFontSize);
+  line-height: v-bind(buttonHeight);
+  vertical-align: middle;
 }
 
 .primary {
@@ -167,9 +169,5 @@ function getButtonClass(): string {
 
 .events-none {
   pointer-events: none;
-}
-
-.text-top {
-  vertical-align: top;
 }
 </style>

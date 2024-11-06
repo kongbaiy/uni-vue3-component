@@ -8,10 +8,10 @@ export const sizes: AnyObject = {
 }
 
 export const fontSizes: AnyObject = {
-  mini: '18rpx',
-  small: '20rpx',
-  normal: '24rpx',
-  large: '32rpx',
+  mini: '24rpx',
+  small: '28rpx',
+  normal: '32rpx',
+  large: '36rpx',
 }
 
 function style(style: AnyObject, componentNames: string[]) {

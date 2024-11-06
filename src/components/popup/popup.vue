@@ -48,6 +48,8 @@
 import { type Ref, ref, watch, watchPostEffect } from 'vue'
 import { NodeSelector } from '../common/index'
 
+import { fontSizes } from '../common/config'
+
 type Position = 'top' | 'bottom' | 'center' | 'right' | 'left'
 
 interface IProps {
@@ -57,6 +59,7 @@ interface IProps {
   position?: Position
   width?: string
   height?: string
+  padding?: string
   background?: string
   showMask?: boolean
 }
@@ -65,12 +68,14 @@ const props = withDefaults(defineProps<IProps>(), {
   clickClose: false,
   showMask: false,
   position: 'bottom',
+  padding: '20rpx',
 })
 const emits = defineEmits<(e: 'update:modelValue', value: boolean) => void>()
 
 const show = ref<boolean>(false)
 const active: Ref = ref<boolean>(false)
 const getNode = new NodeSelector()
+const { large } = fontSizes
 
 watch(() => props.modelValue, (newValue: IProps['modelValue']) => {
   if (newValue) show.value = true
@@ -96,35 +101,65 @@ function handleTransitionend() {
 
   <style lang="scss" scoped>
   .popup-mask {
-    @apply opacity-0 fixed top-0 left-0 z-30 w-full h-full bg-[rgba(0,0,0,0.3)] transition-opacity-200;
+    opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 90;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.3);
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .popup-mask__active {
-    @apply opacity-100;
+    opacity: 1;
   }
 
   .popup {
-    @apply of-hidden flex-col fixed z-32 transition-all-200;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 92;
+    transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .popup-header {
-    @apply relative mt-40rpx text-xl text-center color-[var(--color-h1)];
+    position: relative;
+    margin-top: 40rpx;
+    font-size: v-bind(large);
+    text-align: center;
+    color: var(--color-h1);
   }
 
   .popup-bottom {
-    @apply left-0 bottom-0 translate-y-100% w-full bg-white rd-t-32rpx transition-transform;
+    left: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    width: 100%;
+    border-top-left-radius: 32rpx;
+    border-top-right-radius: 32rpx;
+    background-color: white;
+    transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .popup-bottom__active {
-    @apply translate-y-0;
+    transform: translateY(0);
   }
 
   .popup-content {
-    @apply flex-1 overflow-y-scroll mt-32rpx px-56rpx;
+    flex: 1;
+    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
+    padding: v-bind(padding);
   }
 
   .popup-close {
-    @apply absolute top--14rpx right-32rpx w-36rpx h-36rpx;
+    position: absolute;
+    top: -14rpx;
+    right: 32rpx;
+    width: 36rpx;
+    height: 36rpx;
   }
   </style>

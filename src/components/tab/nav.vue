@@ -64,10 +64,13 @@ function getScrollTabValue(cellWidth: number, currentIndex: number): number {
 
 <style lang="scss" scoped>
   .scroll-tab {
-    @apply font-size-0 ws-nowrap v-baseline;
+    font-size: 0;
+    white-space: nowrap;
+    vertical-align: baseline;
   }
 
   .slot-content {
-    @apply of-hidden inline-block;
+    overflow: hidden;
+    display: inline-block
   }
 </style>

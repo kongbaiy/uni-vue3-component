@@ -2,7 +2,7 @@
   <view>
     <view
       v-if="!$slots.content"
-      :class="getTextContainerStyle()"
+      :class="[isExpand ? 'text-box' : 'text-box__active']"
     >
       <view class="content">
         {{ content }}
@@ -16,7 +16,7 @@
     </view>
     <view
       v-else
-      :class="getTextContainerStyle()"
+      :class="[isExpand ? 'text-box' : 'text-box__active']"
     >
       <view class="text">
         <slot name="content" />
@@ -35,8 +35,10 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { NodeSelector } from '../common/index'
+
+import { fontSizes } from '../common/config'
 
 interface IProps {
   content: string
@@ -56,6 +58,9 @@ const props = withDefaults(defineProps<IProps>(), {
 const getNode = new NodeSelector()
 const showEllipsis = ref<boolean>(false)
 const isExpand = ref<boolean>(false)
+const { normal, small } = fontSizes
+
+const textBoxHeight = computed(() => `${props.lineClamp * props.baseLineHeight}rpx`)
 
 onMounted(() => {
   const { windowWidth = 0 } = uni.getSystemInfoSync()
@@ -75,25 +80,36 @@ onMounted(() => {
 function handleExpand(status: boolean) {
   isExpand.value = status
 }
-
-function getTextContainerStyle() {
-  const { lineClamp, baseLineHeight } = props
-
-  if (isExpand.value) return 'of-hidden relative'
-  return `of-hidden relative h-${lineClamp * baseLineHeight}`
-}
 </script>
 
 <style lang="scss" scoped>
   .content {
-    @apply text-base color-[var(--color-h1)];
+    font-size: v-bind(normal);
+    color: var(--color-h1);
   }
 
   .ellipsis {
-    @apply absolute bottom-0 right-0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
   }
 
   .expand {
-    @apply flex items-center justify-center mt-8rpx text-sm color-[var(--color-primary)];
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8rpx;
+    font-size: v-bind(small);
+    color: var(--color-primary);
+  }
+
+  .text-box,
+  .text-box__active {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .text-box__active {
+    height: v-bind(textBoxHeight);
   }
 </style>

@@ -21,6 +21,15 @@
   <zs-button
     plain
     type="primary"
+    @click="popupVisible = true"
+  >
+    Button
+  </zs-button>
+
+  <zs-button
+    plain
+    type="primary"
+    @click="popupVisible = true"
   >
     Button
   </zs-button>
@@ -63,6 +72,12 @@
     </zs-button>
   </zs-form>
 
+  <slide-delete>
+    <view class="h-60 bg-#ddd">
+      删除
+    </view>
+  </slide-delete>
+
   <popup
     v-model="popupVisible"
     show-mask
@@ -79,9 +94,10 @@ import { reactive, ref } from 'vue'
 import zsButton from '../../components/button/button.vue'
 import zsForm from '../../components/form/form.vue'
 import zsFormItem from '../../components/form-item/form-item.vue'
+import slideDelete from '../../components/slide-delete/slide-delete.vue'
 
 const popupVisible = ref<boolean>(false)
-const formData = reactive<any>({
+const formData = ref<any>({
   organization: 'adad',
   name: '',
 })

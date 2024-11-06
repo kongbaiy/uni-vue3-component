@@ -106,18 +106,20 @@ defineExpose({
 
   <style lang="scss" scoped>
   .slide-action-box {
-    @apply of-hidden relative;
+    overflow: hidden;
+    position: relative;
   }
 
   .slide-action-content {
-    @apply flex transition-property-transform transition-duration-0 transition-ease-out;
+    display: flex;
+    transition: transform 0s cubic-bezier(0, 0, 0.2, 1);
   }
 
   .slide-action-slot {
-    @apply min-w-full;
+    min-width: 100%;
   }
 
   .slide-action {
-    @apply min-h-full;
+    min-height: 100%;
   }
   </style>
