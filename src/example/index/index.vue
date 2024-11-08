@@ -95,6 +95,22 @@
       </view>
     </template>
   </tab-nav>
+
+  <zs-button type="danger" @click="handleDialog">
+    dialog
+  </zs-button>
+  <zs-dialog v-model="dialogVisible" show-mask title="dialog">
+    dialog
+  </zs-dialog>
+
+  <zs-radio-group v-model="radioValue">
+    <zs-radio value="a" active-color="red">
+      a
+    </zs-radio>
+    <zs-radio value="b">
+      b
+    </zs-radio>
+  </zs-radio-group>
 </template>
 
 <script lang="ts" setup>
@@ -105,6 +121,9 @@ import zsForm from '../../components/form/form.vue'
 import zsFormItem from '../../components/form-item/form-item.vue'
 import slideDelete from '../../components/slide-delete/slide-delete.vue'
 import tabNav from '../../components/tab/nav.vue'
+import zsDialog from '../../components/dialog/dialog.vue'
+import zsRadioGroup from '../../components/radio-group/radio-group.vue'
+import zsRadio from '../../components/radio/radio.vue'
 
 const popupVisible = ref<boolean>(false)
 const formData = ref<any>({
@@ -116,7 +135,7 @@ const rules: any = {
     { message: '请输入机构' },
   ],
   name: [
-    { message: '请选择姓名' },
+    { message: '请输入择姓名' },
   ],
 }
 const form = ref()
@@ -143,6 +162,8 @@ const tabData = ref<any[]>([
   { title: '笔记本' },
   { title: '笔记本' },
 ])
+const dialogVisible: any = ref<boolean>(false)
+const radioValue = ref<string>('b')
 
 function handleCodeButtonStart(next: () => void) {
   next()
@@ -156,5 +177,9 @@ function handleSubmit() {
 
 function handleReset() {
   form.value.resetForm()
+}
+
+function handleDialog() {
+  dialogVisible.value = true
 }
 </script>

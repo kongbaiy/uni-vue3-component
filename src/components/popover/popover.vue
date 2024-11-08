@@ -214,19 +214,19 @@ defineExpose({
   }
 
   .popover-guide {
-    z-index: 62;
+    z-index: 32;
   }
 
   .popover-content-guide {
     position: relative;
-    z-index: 90;
+    z-index: 60;
     background-color: white;
   }
 
   .popover-list {
     opacity: 0;
     position: absolute;
-    z-index: 62;
+    z-index: 32;
     padding: 16rpx;
     background-color: white;
     border-radius: 16rpx;
@@ -312,7 +312,7 @@ defineExpose({
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 60;
+      z-index: 30;
       width: 100%;
       height: 100%;
       transition: all 200ms;

@@ -105,7 +105,7 @@ function handleTransitionend() {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 90;
+    z-index: 60;
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.3);
@@ -121,7 +121,7 @@ function handleTransitionend() {
     display: flex;
     flex-direction: column;
     position: fixed;
-    z-index: 92;
+    z-index: 62;
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
