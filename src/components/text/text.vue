@@ -63,7 +63,7 @@ const { normal, small } = fontSizes
 const textBoxHeight = computed(() => `${props.lineClamp * props.baseLineHeight}rpx`)
 
 onMounted(() => {
-  const { windowWidth = 0 } = uni.getSystemInfoSync()
+  const { windowWidth = 0 } = uni.getWindowInfo()
   const rpx = windowWidth / 750
 
   getNode.query('.text', (nodeInfo: UniApp.NodeInfo | undefined) => {

@@ -54,7 +54,7 @@ defineExpose({
       formData,
       rules,
     }).then(callback).catch((error) => {
-      const { currentRule } = error
+      const { currentRule } = error[0]
 
       if (promptMode === 'toast') {
         uni.showToast({
@@ -64,8 +64,10 @@ defineExpose({
         return
       }
 
-      const { setErrorMessage } = children.find((item: any) => item.prop === error.key) || {}
-      setErrorMessage?.(currentRule.message)
+      error.forEach((item: any) => {
+        const { setErrorMessage } = children.find((cItem: any) => cItem.prop === item.key) || {}
+        setErrorMessage?.(currentRule.message)
+      })
     })
   },
   resetForm: () => {

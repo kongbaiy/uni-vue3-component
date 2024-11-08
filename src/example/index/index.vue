@@ -37,6 +37,7 @@
   <zs-form
     ref="form"
     v-model="formData"
+    prompt-mode="toast"
     :rules="rules"
     align="justify"
     label-width="200rpx"
@@ -86,19 +87,28 @@
       popup
     </view>
   </popup>
+
+  <tab-nav :data="tabData" data-key="title">
+    <template #default="row">
+      <view :style="{ margin: '0 1px', width: '200rpx', height: '60rpx', fontSize: '20rpx', background: '#ddd' }">
+        {{ row.currentData.title }}{{ row.currentIndex }}
+      </view>
+    </template>
+  </tab-nav>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 import zsButton from '../../components/button/button.vue'
 import zsForm from '../../components/form/form.vue'
 import zsFormItem from '../../components/form-item/form-item.vue'
 import slideDelete from '../../components/slide-delete/slide-delete.vue'
+import tabNav from '../../components/tab/nav.vue'
 
 const popupVisible = ref<boolean>(false)
 const formData = ref<any>({
-  organization: 'adad',
+  organization: 'organization',
   name: '',
 })
 const rules: any = {
@@ -110,6 +120,29 @@ const rules: any = {
   ],
 }
 const form = ref()
+const tabData = ref<any[]>([
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+  { title: '笔记本' },
+])
 
 function handleCodeButtonStart(next: () => void) {
   next()

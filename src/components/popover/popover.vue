@@ -107,7 +107,7 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 const emits = defineEmits(['update:modelValue', 'popover', 'open'])
 
-const { windowWidth = 0, windowHeight = 0 } = uni.getSystemInfoSync()
+const { windowWidth = 0, windowHeight = 0 } = uni.getWindowInfo()
 const show = ref<boolean>(false)
 const active = ref<boolean>(false)
 const getNode = new NodeSelector()

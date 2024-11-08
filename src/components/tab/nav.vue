@@ -8,7 +8,7 @@
     scroll-with-animation
     :show-scrollbar="showScrollbar"
     :enhanced="showScrollbar"
-    :class="`scroll-tab ${className}`"
+    class="scroll-tab"
   >
     <view
       v-for="item, index in data"
@@ -31,8 +31,7 @@ import { NodeSelector } from '../common/index'
 interface IProps {
   data?: any[]
   dataKey?: string
-  className?: string
-  restyle?: string | object
+  restyle?: string | AnyObject
   showScrollbar?: boolean
 }
 

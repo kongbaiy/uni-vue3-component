@@ -57,7 +57,7 @@ export function hexToRgba(str: string, alpha: number = 1) {
  * @return {number}
  */
 export function getSystemNavHeight(): number {
-  const { statusBarHeight = 0 } = uni.getSystemInfoSync() // 状态栏高度
+  const { statusBarHeight = 0 } = uni.getWindowInfo() // 状态栏高度
   const { top, height } = uni.getMenuButtonBoundingClientRect() // 胶囊高度
   const navbarHeight = (top - statusBarHeight) * 2 + height // 导航栏高度
 

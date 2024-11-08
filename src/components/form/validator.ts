@@ -24,6 +24,7 @@ export function formValidator(options: IFormValidatorOptions) {
 
   return new Promise((resolve, reject) => {
     let key: string
+    const errorInfo = []
 
     for (key in rules) {
       const rule = rules[key]
@@ -59,22 +60,21 @@ export function formValidator(options: IFormValidatorOptions) {
           || (currentRule.minLength && formValue?.length < currentRule.minLength)
           || (currentRule.maxLength && formValue?.length > currentRule.maxLength)
         ) {
-          if (prompt) {
-            uni.showToast({
-              title: currentRule.message,
-              icon: 'none',
-            })
-          }
-
-          // eslint-disable-next-line prefer-promise-reject-errors
-          reject?.({
+          errorInfo.push({
             formValue,
             key,
             currentRule,
             rules,
           })
+          reject(errorInfo)
 
-          return isBreak = false
+          if (prompt) {
+            uni.showToast({
+              title: currentRule.message,
+              icon: 'none',
+            })
+            return isBreak = false
+          }
         }
       }
 
