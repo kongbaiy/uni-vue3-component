@@ -111,6 +111,9 @@
       b
     </zs-radio>
   </zs-radio-group>
+
+  <zs-textarea :maxlength="30" word-number />
+  <search />
 </template>
 
 <script lang="ts" setup>
@@ -124,6 +127,7 @@ import tabNav from '../../components/tab/nav.vue'
 import zsDialog from '../../components/dialog/dialog.vue'
 import zsRadioGroup from '../../components/radio-group/radio-group.vue'
 import zsRadio from '../../components/radio/radio.vue'
+import zsTextarea from '../../components/textarea/textarea.vue'
 
 const popupVisible = ref<boolean>(false)
 const formData = ref<any>({

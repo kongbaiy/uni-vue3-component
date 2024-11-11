@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts" setup>
-// import { nextTick, provide, watch, watchPostEffect } from 'vue'
 import { provide, watchPostEffect } from 'vue'
 
 import { type ComponentInternalInstance, getCurrentInstance } from 'vue'
@@ -19,14 +18,6 @@ const emits = defineEmits(['update:modelValue'])
 
 const instance: ComponentInternalInstance | any = getCurrentInstance()
 
-// watch(() => props.modelValue, (newValue: boolean) => {
-//   nextTick(() => {
-//     onChecked(newValue)
-//   })
-// }, {
-//   immediate: true,
-// })
-
 watchPostEffect(() => {
   onChecked(props.modelValue)
 })
@@ -36,7 +27,6 @@ function set(value: IProps['modelValue']) {
 }
 
 function onChecked(value: any) {
-  console.log('value')
   instance.proxy?.$children.forEach((item: any) => {
     item.onChecked(item.value === value)
   })
