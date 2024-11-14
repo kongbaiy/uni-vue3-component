@@ -13,7 +13,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   size: '20rpx',
-  color: '#333',
+  color: 'var(--color-active-checkbox)',
 })
 
 const iconFontSize = getCssDefaultUint(props.size)

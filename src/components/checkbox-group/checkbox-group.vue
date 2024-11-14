@@ -26,11 +26,23 @@ function set(value: IProps['modelValue']) {
   emits('update:modelValue', value)
 }
 
-function onChecked(value: any) {
+function get(): IProps['modelValue'] {
+  return props.modelValue
+}
+
+function remove(value: any) {
+  const newModelValue = props.modelValue.filter((item: any) => item !== value)
+
+  emits('update:modelValue', newModelValue)
+}
+
+function onChecked(modelValue: IProps['modelValue']) {
   instance.proxy?.$children.forEach((item: any) => {
-    item.onChecked(item.value === value)
+    item.onChecked(modelValue.includes(item.value))
   })
 }
 
 provide('set', set)
+provide('get', get)
+provide('remove', remove)
 </script>

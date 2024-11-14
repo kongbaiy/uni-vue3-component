@@ -15,6 +15,19 @@ page {
   --color-text-primary: #333;
   --color-text-regular: #666;
   --color-text-secondary: #999;
+  
+  --color-checkbox: #333;
+  --color-active-checkbox: var(--theme);
+  --color-checkbox-border: #333;
+  --color-active-checkbox-border: var(--theme);
+  --color-checkbox-background: transparent;
+  --color-active-checkbox-background: transparent;
 
-    
+  --color-radio: #ddd;
+  --color-active-radio: var(--theme);
+  --color-radio-border: #ddd;
+  --color-active-radio-border: var(--theme);
+  --color-radio-background: 'transparent';
+  --color-active-radio-background: 'transparent';
+
 }

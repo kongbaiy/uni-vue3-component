@@ -8,34 +8,25 @@
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
 
+import { getCssDefaultUint } from '../common/index'
+
 interface IProps {
   value?: any
   size?: number
-  color?: string
-  activeColor?: string
-  activeBorderColor?: string
-  borderColor?: string
-  background?: string
-  activeBackground?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  color: '#fff',
-  activeColor: '#fff',
-  borderColor: '#BDBCBC',
-  activeBorderColor: '#3884EB',
-  background: '#BDBCBC',
-  activeBackground: '#3884EB',
   size: 26,
 })
 const setModel = inject<<T>(args: T) => void>('set')
 
 const radioStyle = computed(() => {
   const { size } = props
+  const sizeValue = getCssDefaultUint(size)
 
   return {
-    width: `${size}rpx`,
-    height: `${size}rpx`,
+    width: sizeValue,
+    height: sizeValue,
   }
 })
 
@@ -56,44 +47,40 @@ defineExpose({
 
 <style lang="scss" scoped>
 .label {
-  --color: v-bind(color);
-  --activeColor: v-bind(activeColor);
-  --borerColor: v-bind(borderColor);
-  --activeBorderColor: v-bind(activeBorderColor);
-  --bgColor: v-bind(background);
-  --activeBgColor: v-bind(activeBackground);
   position: relative;
 }
 
-.label__active {
-  .radio {
-    border-color: var(--activeBorderColor);
-    background-color: var(--activeBgColor);
-  }
-
-  .radio::after {
-    background-color: var(--activeColor);
-  }
-}
-
 .radio {
+  transition: all 200ms ease-out;
   position: relative;
   display: inline-block;
   margin-top: -2rpx;
   vertical-align: middle;
-  border: 1px solid var(--borerColor);
-  background-color: var(--bgColor);
+  border: 1px solid var(--color-radio-border);
+  background: var(--color-radio-background);
   border-radius: 50%;
   &::after {
     content: "";
+    transition: all 200ms ease-out;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 60%;
     height: 60%;
-    background-color: var(--color);
+    background-color: var(--color-radio);
     border-radius: 50%;
+  }
+}
+
+.label__active {
+  .radio {
+    border-color: var(--color-active-radio-border);
+    background: var(--color-active-radio-background);
+  }
+
+  .radio::after {
+    background: var(--color-active-radio);
   }
 }
 </style>

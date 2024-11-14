@@ -112,9 +112,6 @@
     </zs-radio>
   </zs-radio-group>
 
-  <zs-textarea :maxlength="30" word-number />
-  <search />
-
   <zs-checkbox-group v-model="checkboxValue">
     <zs-checkbox value="a" active-color="red">
       a
@@ -123,6 +120,9 @@
       b
     </zs-checkbox>
   </zs-checkbox-group>
+
+  <zs-textarea :maxlength="30" word-number />
+  <search />
 </template>
 
 <script lang="ts" setup>
@@ -186,6 +186,7 @@ function handleCodeButtonStart(next: () => void) {
 }
 
 function handleSubmit() {
+  console.log(checkboxValue.value)
   form.value.validate(() => {
     console.log('yes')
   })
