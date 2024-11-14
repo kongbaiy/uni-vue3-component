@@ -3,5 +3,4 @@
 @import url('./assets/css/reset.css');
 @import url('./assets/css/var.css');
 
-/* stylelint-disable-next-line at-rule-empty-line-before */
-@import './assets/scss/text.scss';
+

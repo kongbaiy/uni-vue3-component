@@ -114,6 +114,15 @@
 
   <zs-textarea :maxlength="30" word-number />
   <search />
+
+  <zs-checkbox-group v-model="checkboxValue">
+    <zs-checkbox value="a" active-color="red">
+      a
+    </zs-checkbox>
+    <zs-checkbox value="b">
+      b
+    </zs-checkbox>
+  </zs-checkbox-group>
 </template>
 
 <script lang="ts" setup>
@@ -128,6 +137,8 @@ import zsDialog from '../../components/dialog/dialog.vue'
 import zsRadioGroup from '../../components/radio-group/radio-group.vue'
 import zsRadio from '../../components/radio/radio.vue'
 import zsTextarea from '../../components/textarea/textarea.vue'
+import zsCheckboxGroup from '../../components/checkbox-group/checkbox-group.vue'
+import zsCheckbox from '../../components/checkbox/checkbox.vue'
 
 const popupVisible = ref<boolean>(false)
 const formData = ref<any>({
@@ -168,6 +179,7 @@ const tabData = ref<any[]>([
 ])
 const dialogVisible: any = ref<boolean>(false)
 const radioValue = ref<string>('b')
+const checkboxValue = ref<string[]>([])
 
 function handleCodeButtonStart(next: () => void) {
   next()

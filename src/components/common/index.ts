@@ -118,3 +118,7 @@ export function getMapValue(mapData: any[], keys: string[]): string {
 
   return str
 }
+
+export function getCssDefaultUint(value: number | string, cssUnit: string = 'rpx'): string {
+  return Number(value) ? `${value}${cssUnit}` : `${value}`
+}

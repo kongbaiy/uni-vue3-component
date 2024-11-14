@@ -1,12 +1,17 @@
 <template>
   <label :class="{ label: true!, label__active: checked }" @click="handleLabel">
-    <view :style="radioStyle" class="radio" />
+    <view :style="checkboxStyle" class="checkbox">
+      <slot name="icon" />
+      <custom-icon v-if="!$slots.icon" v-show="checked" type="checkbox" :color="color" />
+    </view>
     <slot />
   </label>
 </template>
 
 <script lang="ts" setup>
 import { computed, inject, ref } from 'vue'
+
+import customIcon from '../icon/icon.vue'
 
 interface IProps {
   value?: any
@@ -30,7 +35,7 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 const setModel = inject<<T>(args: T) => void>('set')
 
-const radioStyle = computed(() => {
+const checkboxStyle = computed(() => {
   const { size } = props
 
   return {
@@ -54,46 +59,32 @@ defineExpose({
 })
 </script>
 
-<style lang="scss" scoped>
+  <style lang="scss" scoped>
 .label {
-  --color: v-bind(color);
-  --activeColor: v-bind(activeColor);
-  --borerColor: v-bind(borderColor);
-  --activeBorderColor: v-bind(activeBorderColor);
-  --bgColor: v-bind(background);
-  --activeBgColor: v-bind(activeBackground);
-  position: relative;
-}
-
-.label__active {
-  .radio {
-    border-color: var(--activeBorderColor);
-    background-color: var(--activeBgColor);
+    --color: v-bind(color);
+    --activeColor: v-bind(activeColor);
+    --borerColor: v-bind(borderColor);
+    --activeBorderColor: v-bind(activeBorderColor);
+    --bgColor: v-bind(background);
+    --activeBgColor: v-bind(activeBackground);
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
   }
 
-  .radio::after {
-    background-color: var(--activeColor);
+  .label__active {
+    .checkbox {
+      color: var(--color);
+      border-color: var(--activeBorderColor);
+      background-color: var(--activeBgColor);
+    }
   }
-}
 
-.radio {
-  position: relative;
-  display: inline-block;
-  margin-top: -2rpx;
-  vertical-align: middle;
-  border: 1px solid var(--borerColor);
-  background-color: var(--bgColor);
-  border-radius: 50%;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    height: 60%;
-    background-color: var(--color);
-    border-radius: 50%;
+  .checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--borerColor);
+    background-color: var(--bgColor);
   }
-}
-</style>
+  </style>
