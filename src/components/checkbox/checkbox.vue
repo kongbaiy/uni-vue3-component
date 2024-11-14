@@ -2,12 +2,13 @@
   <label :class="{ label: true!, label__active: checked }" @click="handleLabel">
     <view :style="checkboxStyle" class="checkbox">
       <slot name="icon" />
+
       <custom-icon
         v-if="!$slots.icon"
         v-show="checked"
         type="checkbox"
-        v-bind="$attrs"
         :size="size"
+        color="var(--color-active-checkbox)"
       />
     </view>
     <slot />

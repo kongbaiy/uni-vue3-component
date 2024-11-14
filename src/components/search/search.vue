@@ -4,7 +4,10 @@
     class="search-box"
   >
     <view class="search-prefix">
-      <icon type="search" size="20" />
+      <custom-icon
+        type="search"
+        :size="42"
+      />
     </view>
 
     <input
@@ -23,15 +26,21 @@
     >
 
     <view class="search-suffix">
-      <icon v-show="inputValue.length" type="clear" size="20" @click="handleClear" />
+      <custom-icon
+        v-show="inputValue.length"
+        type="search-clear"
+        :size="42"
+        @tap="handleClear"
+      />
     </view>
   </view>
 </template>
 
 <script lang="ts" setup name="Search">
 import { ref, watch } from 'vue'
-
 import { fontSizes, styles } from '../common/config'
+
+import customIcon from '../icon/icon.vue'
 
 type ConfirmType = 'send' | 'search' | 'next' | 'go' | 'done'
 

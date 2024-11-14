@@ -1,5 +1,5 @@
 <template>
-  <view :class="`icon ${type}`" />
+  <view :class="`icon icon-${type}`" />
 </template>
 
 <script lang="ts" setup>
@@ -13,14 +13,14 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   size: '20rpx',
-  color: 'var(--color-active-checkbox)',
+  color: '#dbdddb',
 })
 
 const iconFontSize = getCssDefaultUint(props.size)
 </script>
 
 <style lang="scss" scoped>
-@import url('../assets/unicode/index.css');
+@import url('../assets/icons/index.scss');
 
 .icon {
     font-size: v-bind(iconFontSize);

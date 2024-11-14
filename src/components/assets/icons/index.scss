@@ -1,0 +1,28 @@
+
+@font-face {
+    font-family: 'iconfont';
+    src: url('./iconfont.woff2') format('woff2'),
+        url('./iconfont.woff') format('woff'),
+        url('./iconfont.ttf') format('truetype');
+}
+
+.icon-checkbox,
+.icon-search,
+.icon-search-clear
+ {
+    font-family: 'iconfont' !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-checkbox::after {
+    content: "\e65d";
+}
+
+.icon-search-clear::after {
+    content: "\e645";
+}
+
+.icon-search::after {
+    content: "\e604";
+}
