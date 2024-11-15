@@ -1,36 +1,28 @@
 <template>
-  <view>
-    <view
-      v-if="!$slots.content"
-      :class="[isExpand ? 'text-box' : 'text-box__active']"
-    >
-      <view class="content">
-        {{ content }}
-      </view>
-      <view
-        v-if="showEllipsis && !isExpand"
-        class="ellipsis"
-      >
-        ...
-      </view>
-    </view>
-    <view
-      v-else
-      :class="[isExpand ? 'text-box' : 'text-box__active']"
-    >
-      <view class="text">
-        <slot name="content" />
-      </view>
+  <view
+    :class="[isExpand ? 'text-box' : 'text-box__active']"
+  >
+    <view :style="textContentStyle" class="text-content">
+      {{ content }}
     </view>
 
     <view
-      v-if="showEllipsis"
-      class="expand"
-      @click="handleExpand(!isExpand)"
+      v-if="showEllipsis && !isExpand"
+      class="ellipsis"
     >
-      {{ isExpand ? collapseText : expandText }}
-      <slot name="expand-icon" />
+      ...
     </view>
+  </view>
+
+  <view
+    v-if="showEllipsis"
+    class="expand"
+    @click="handleExpand(!isExpand)"
+  >
+    <text v-if="!$slots.expand">
+      {{ isExpand ? collapseText : expandText }}
+    </text>
+    <slot name="expand" />
   </view>
 </template>
 
@@ -43,14 +35,15 @@ import { fontSizes } from '../common/config'
 interface IProps {
   content: string
   lineClamp?: number
-  baseLineHeight?: number
+  lineHeight?: number
   expandText?: string
   collapseText?: string
+  color?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
   lineClamp: 1,
-  baseLineHeight: 40,
+  lineHeight: Number.parseInt(fontSizes.normal) * 1.4,
   expandText: '展开',
   collapseText: '收起',
 })
@@ -60,20 +53,24 @@ const showEllipsis = ref<boolean>(false)
 const isExpand = ref<boolean>(false)
 const { normal, small } = fontSizes
 
-const textBoxHeight = computed(() => `${props.lineClamp * props.baseLineHeight}rpx`)
+const textBoxHeight = computed(() => `${props.lineClamp * props.lineHeight}rpx`)
+const textContentStyle = computed(() => {
+  return {
+    lineHeight: `${props.lineHeight}rpx`,
+    color: props.color,
+  }
+})
 
 onMounted(() => {
   const { windowWidth = 0 } = uni.getWindowInfo()
   const rpx = windowWidth / 750
 
-  getNode.query('.text', (nodeInfo: UniApp.NodeInfo | undefined) => {
+  getNode.query('.text-content', (nodeInfo: UniApp.NodeInfo | undefined) => {
     const { height = 0 } = nodeInfo || {}
     const textHeight = Number.parseInt((height / rpx) as unknown as string)
-    const row = Math.round(textHeight / props.baseLineHeight)
+    const row = Math.round(textHeight / props.lineHeight)
 
-    if (row > props.lineClamp) {
-      showEllipsis.value = true
-    }
+    if (row > props.lineClamp) showEllipsis.value = true
   })
 })
 
@@ -83,26 +80,6 @@ function handleExpand(status: boolean) {
 </script>
 
 <style lang="scss" scoped>
-  .content {
-    font-size: v-bind(normal);
-    color: var(--color-h1);
-  }
-
-  .ellipsis {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-
-  .expand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8rpx;
-    font-size: v-bind(small);
-    color: var(--color-primary);
-  }
-
   .text-box,
   .text-box__active {
     overflow: hidden;
@@ -111,5 +88,26 @@ function handleExpand(status: boolean) {
 
   .text-box__active {
     height: v-bind(textBoxHeight);
+  }
+
+  .text-content {
+    font-size: v-bind(normal);
+    color: var(--color-h1);
+  }
+
+  .ellipsis {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0 10rpx;
+    background-color: white;
+  }
+
+  .expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: v-bind(small);
+    color: var(--color-primary);
   }
 </style>
