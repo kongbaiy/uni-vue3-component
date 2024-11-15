@@ -1,15 +1,21 @@
 {
   "pages": [
     {
+      "path": "example/list/index",
+      "style": {
+        "navigationBarTitleText": "list"
+      }
+    },
+    {
       "path": "example/index/index",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "home"
       }
     }
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "uni-app",
+    "navigationBarTitleText": "uni-comps-vue3",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   }
