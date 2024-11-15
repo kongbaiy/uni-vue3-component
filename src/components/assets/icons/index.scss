@@ -8,7 +8,8 @@
 
 .icon-checkbox,
 .icon-search,
-.icon-search-clear
+.icon-search-clear,
+.icon-close
  {
     font-family: 'iconfont' !important;
     -webkit-font-smoothing: antialiased;
@@ -25,4 +26,8 @@
 
 .icon-search::after {
     content: "\e604";
+}
+
+.icon-close::after {
+    content: "\e646";
 }

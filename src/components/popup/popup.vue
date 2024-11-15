@@ -14,19 +14,19 @@
     @transitionend="handleTransitionend"
   >
     <view
-      v-if="!$slots.header"
+      v-if="!$slots.header && title"
       class="popup-header"
     >
       {{ title }}
-      <img
-        src="../assets/images/delete@2x.png"
-        alt="关闭"
-        class="popup-close"
-        @click="handleClose"
-      >
     </view>
-
     <slot v-else name="header" />
+
+    <custom-icon
+      type="close"
+      :size="42"
+      class="popup-close"
+      @tap="handleClose"
+    />
 
     <view class="popup-content">
       <slot v-if="active" />
@@ -47,8 +47,9 @@
 <script lang="ts" setup name="Popup">
 import { type Ref, ref, watch, watchPostEffect } from 'vue'
 import { NodeSelector } from '../common/index'
-
 import { fontSizes } from '../common/config'
+
+import customIcon from '../icon/icon.vue'
 
 type Position = 'top' | 'bottom' | 'center' | 'right' | 'left'
 
@@ -125,12 +126,22 @@ function handleTransitionend() {
     transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  .popup-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 62;
+    padding: 16rpx 32rpx;
+    width: 36rpx;
+    height: 36rpx;
+  }
+
   .popup-header {
-    position: relative;
-    margin-top: 40rpx;
+    height: 80rpx;
     font-size: v-bind(large);
-    text-align: center;
     color: var(--color-h1);
+    text-align: center;
+    line-height: 80rpx;
   }
 
   .popup-bottom {
@@ -154,12 +165,4 @@ function handleTransitionend() {
     -webkit-overflow-scrolling: touch;
     padding: v-bind(padding);
   }
-
-  .popup-close {
-    position: absolute;
-    top: -14rpx;
-    right: 32rpx;
-    width: 36rpx;
-    height: 36rpx;
-  }
-  </style>
+</style>

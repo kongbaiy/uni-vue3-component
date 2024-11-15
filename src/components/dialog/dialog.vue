@@ -52,7 +52,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   showMask: true,
-  contentPadding: styles.dialog?.padding || '20rpx',
+  contentPadding: styles.dialog?.padding || '0 20rpx 20rpx 20rpx',
   cancelText: '取消',
   confirmText: '确定',
 })
@@ -141,11 +141,12 @@ function handleCancel() {
 }
 
 .dialog-title {
-  margin-top: 40rpx;
-  font-weight: 600;
-  text-align: center;
+  height: 80rpx;
   font-size: v-bind(normal);
   color: var(--color-h1);
+  font-weight: 600;
+  text-align: center;
+  line-height: 80rpx;
 }
 
 .dialog-footer {
