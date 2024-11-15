@@ -19,22 +19,16 @@
     @scrolltolower="handleScrolltolower"
   >
     <slot />
-    <!-- <view
-        v-if="scrolltolower && !scrolltolower.length"
-        class="no-data"
-      >
-        —— 暂无数据 ——
-      </view> -->
-    <view v-if="scrolltolower && !scrolltolower.length" class="no-data-msg">
-      <img
-        src="@ks/assets/images/no-data.png"
-        alt=""
-        class="no-data-image"
-        mode="aspectFit"
-      >
-      <view class="no-data-title">
-        暂时没有数据
-      </view>
+
+    <slot
+      v-if="scrolltolower && !scrolltolower.length && $slots.noData"
+      name="noData"
+    />
+    <view
+      v-else
+      class="no-data"
+    >
+      —— 暂无数据 ——
     </view>
   </scroll-view>
 </template>
