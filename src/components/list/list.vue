@@ -9,16 +9,16 @@
   >
     <slot />
 
-    <slot v-if="!listData.length && $slots.noData" name="noData" />
+    <slot v-if="!response.data.length && $slots.noData" name="noData" />
 
-    <view v-if="!listData.length && !$slots.noData" class="no-data">
+    <view v-if="!response.data.length && !$slots.noData" class="no-data">
       —— 暂无数据 ——
     </view>
   </scroll-view>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { fontSizes } from '../common/config'
 
 interface IAnyObject {
@@ -30,10 +30,9 @@ export interface IActionResponse extends IAnyObject {
   data: any[]
 }
 
-export interface IFields {
-  page: string
-  pageCount: string
-  data: string
+export interface IResponseConfig {
+  pageCount: string | number
+  data: IAnyObject[]
 }
 
 interface IProps {
@@ -67,10 +66,11 @@ interface IProps {
   // 请求参数
   query?: IAnyObject
 
-  // 字段
-  fields: IFields
+  // 动态指定页数字段
+  pageField?: string
 
-  responseFilter?: string[]
+  // 响应设置
+  responseConfig: <T>(res: T) => IResponseConfig
 
   // 绑定数据
   modelValue?: IAnyObject
@@ -82,12 +82,12 @@ interface IProps {
 const props = withDefaults(defineProps<IProps>(), {
   lowerThreshold: 60,
   refresherEnabled: true,
-  fields: () => ({
-    page: 'current',
-    pageCount: 'page',
-    data: 'data',
-  }),
+  pageField: 'page',
   query: () => ({}),
+  responseConfig: () => ({
+    pageCount: 1,
+    data: [],
+  }),
 })
 const emits = defineEmits([
   'refresh',
@@ -100,13 +100,11 @@ const emits = defineEmits([
 const refresherTriggered = ref<boolean>(false)
 const newScrollTop = ref<number>(props.scrollTop!)
 
-const listData = computed(() => {
-  if (Array.isArray(props.modelValue)) return props.modelValue
-  return props.modelValue?.[props.fields.data] || []
-})
-
 const { normal } = fontSizes
-const pageCount = ref<number>(1)
+const response = ref<IResponseConfig>({
+  pageCount: 1,
+  data: [],
+})
 
 reAction()
 
@@ -151,55 +149,54 @@ async function reAction() {
   const {
     action,
     query,
-    fields,
-    responseFilter,
+    pageField,
+    responseConfig,
   } = props
 
   scrollToTop()
   refresherTriggered.value = true
-  query[fields.page] = 1
+  query[pageField] = 1
 
-  const result = objectAttributeFilter(await action?.(query), responseFilter)
+  const result = await action?.(query)
 
   refresherTriggered.value = false
-  pageCount.value = result[fields.pageCount]
-  emits('update:modelValue', result)
+  response.value = responseConfig(result)
+  emits('update:modelValue', response.value)
 }
 
 async function loadAction() {
   const {
     action,
     query,
-    fields,
+    pageField,
+    responseConfig,
     modelValue,
-    responseFilter,
   } = props
 
-  if (!modelValue || query[fields.page] >= pageCount.value) return
+  if (!modelValue || query[pageField] >= response.value?.pageCount) return
+  query[pageField] += 1
 
-  query[fields.page] += 1
+  const result = await action?.(query)
+  response.value = responseConfig(result)
 
-  const result = objectAttributeFilter(await action?.(query), responseFilter)
-
-  pageCount.value = result[fields.pageCount]
-  if (result.data?.length) {
+  if (modelValue.data.length) {
     emits('update:modelValue', {
       ...modelValue,
-      [fields.data]: modelValue?.[fields.data].concat(result.data),
+      data: modelValue.data.concat(response.value.data),
     })
   }
 }
 
-function objectAttributeFilter(obj: IAnyObject, keys: string[] = []) {
-  let result = { ...obj }
+// function objectAttributeFilter(obj: IAnyObject, keys: string[] = []) {
+//   let result = { ...obj }
 
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i]
-    result = result[key]
-  }
+//   for (let i = 0; i < keys.length; i++) {
+//     const key = keys[i]
+//     result = result[key]
+//   }
 
-  return result
-}
+//   return result
+// }
 
 function scrollToTop() {
   newScrollTop.value = newScrollTop.value === -1 ? 0 : -1
