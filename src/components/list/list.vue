@@ -9,16 +9,22 @@
   >
     <slot />
 
-    <slot v-if="!response.data.length && $slots.noData" name="noData" />
+    <!-- 暂无数据提示 -->
+    <slot v-if="!response.data?.length && $slots.noData" name="noData" />
+    <view v-if="!response.data?.length && !$slots.noData" class="no-data">
+      {{ noDataText }}
+    </view>
 
-    <view v-if="!response.data.length && !$slots.noData" class="no-data">
-      —— 暂无数据 ——
+    <!-- 无更多数据提示 -->
+    <slot v-if="noMoreData && $slots.noMoreData" name="noMoreData" />
+    <view v-if="noMoreData && !$slots.noMoreData" class="no-more-data">
+      {{ noMoreDataText }}
     </view>
   </scroll-view>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { fontSizes } from '../common/config'
 
 interface IAnyObject {
@@ -75,8 +81,11 @@ interface IProps {
   // 绑定数据
   modelValue?: IAnyObject
 
-  // 页面显示时是否重置
-  pageShowReset?: boolean
+  // 暂时数据文字提示
+  noDataText?: string
+
+  // 无更多数据文字提示
+  noMoreDataText?: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -88,6 +97,8 @@ const props = withDefaults(defineProps<IProps>(), {
     pageCount: 1,
     data: [],
   }),
+  noDataText: ' —— 暂无数据 ——',
+  noMoreDataText: '没有更多的数据啦~',
 })
 const emits = defineEmits([
   'refresh',
@@ -97,13 +108,17 @@ const emits = defineEmits([
   'update:modelValue',
 ])
 
-const refresherTriggered = ref<boolean>(false)
 const newScrollTop = ref<number>(props.scrollTop!)
-
-const { normal } = fontSizes
+const refresherTriggered = ref<boolean>(false)
 const response = ref<IResponseConfig>({
-  pageCount: 1,
+  pageCount: 0,
   data: [],
+})
+const { normal } = fontSizes
+
+const noMoreData = computed(() => {
+  if (props.query[props.pageField] === response.value.pageCount) return true
+  return false
 })
 
 reAction()
@@ -115,7 +130,10 @@ function handleRefresherrefresh() {
     return
   }
 
-  reAction()
+  const reActionBefore = () => refresherTriggered.value = true
+  const reActionAfter = () => refresherTriggered.value = false
+
+  reAction(reActionBefore, reActionAfter)
 }
 
 // 自定义下拉刷新被结束
@@ -145,23 +163,26 @@ function handleScrolltolower() {
   loadAction()
 }
 
-async function reAction() {
-  const {
-    action,
-    query,
-    pageField,
-    responseConfig,
-  } = props
+async function reAction(before?: () => void, after?: () => void) {
+  try {
+    const {
+      action,
+      query,
+      pageField,
+      responseConfig,
+    } = props
 
-  scrollToTop()
-  refresherTriggered.value = true
-  query[pageField] = 1
+    scrollToTop()
+    before?.()
+    query[pageField] = 1
 
-  const result = await action?.(query)
+    const result = await action?.(query)
 
-  refresherTriggered.value = false
-  response.value = responseConfig(result)
-  emits('update:modelValue', response.value)
+    response.value = responseConfig(result)
+    emits('update:modelValue', response.value)
+  } finally {
+    after?.()
+  }
 }
 
 async function loadAction() {
@@ -179,24 +200,13 @@ async function loadAction() {
   const result = await action?.(query)
   response.value = responseConfig(result)
 
-  if (modelValue.data.length) {
+  if (modelValue.data?.length) {
     emits('update:modelValue', {
       ...modelValue,
       data: modelValue.data.concat(response.value.data),
     })
   }
 }
-
-// function objectAttributeFilter(obj: IAnyObject, keys: string[] = []) {
-//   let result = { ...obj }
-
-//   for (let i = 0; i < keys.length; i++) {
-//     const key = keys[i]
-//     result = result[key]
-//   }
-
-//   return result
-// }
 
 function scrollToTop() {
   newScrollTop.value = newScrollTop.value === -1 ? 0 : -1
@@ -213,7 +223,8 @@ defineExpose({
     overflow-anchor: auto;
 }
 
-.no-data {
+.no-data,
+.no-more-data {
     padding: 42rpx 0;
     font-size: v-bind(normal);
     color: var(--color-h3);
