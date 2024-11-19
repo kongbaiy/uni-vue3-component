@@ -10,8 +10,8 @@
     <slot />
 
     <!-- 暂无数据提示 -->
-    <slot v-if="!response.data?.length && $slots.noData" name="noData" />
-    <view v-if="!response.data?.length && !$slots.noData" class="no-data">
+    <slot v-if="noData && $slots.noData" name="noData" />
+    <view v-if="noData && !$slots.noData" class="no-data">
       {{ noDataText }}
     </view>
 
@@ -114,8 +114,13 @@ const response = ref<IResponseConfig>({
   pageCount: 0,
   data: [],
 })
+const reActioned = ref<boolean>(false)
 const { normal } = fontSizes
 
+const noData = computed(() => {
+  if (!response.value.data?.length && reActioned.value) return true
+  return false
+})
 const noMoreData = computed(() => {
   if (props.query[props.pageField] === response.value.pageCount) return true
   return false
@@ -178,6 +183,7 @@ async function reAction(before?: () => void, after?: () => void) {
 
     const result = await action?.(query)
 
+    reActioned.value = true
     response.value = responseConfig(result)
     emits('update:modelValue', response.value)
   } finally {

@@ -4,7 +4,6 @@
     :action="action"
     :query="query"
     :response-config="getListResponseConfig"
-    no-more-data-text="!!"
     height="100vh"
   >
     <view
