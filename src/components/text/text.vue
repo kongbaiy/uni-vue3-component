@@ -30,7 +30,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { NodeSelector } from '../common/index'
 
-import { fontSizes } from '../common/config'
+import { fontSize } from '../common/config'
 
 interface IProps {
   content: string
@@ -43,7 +43,7 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   lineClamp: 1,
-  lineHeight: Number.parseInt(fontSizes.normal) * 1.4,
+  lineHeight: Number.parseInt(fontSize.normal) * 1.4,
   expandText: '展开',
   collapseText: '收起',
 })
@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<IProps>(), {
 const getNode = new NodeSelector()
 const showEllipsis = ref<boolean>(false)
 const isExpand = ref<boolean>(false)
-const { normal, small } = fontSizes
+const { normal, small } = fontSize
 
 const textBoxHeight = computed(() => `${props.lineClamp * props.lineHeight}rpx`)
 const textContentStyle = computed(() => {

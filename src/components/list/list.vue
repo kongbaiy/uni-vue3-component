@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { fontSizes } from '../common/config'
+import { fontSize } from '../common/config'
 
 interface IAnyObject {
   [key: string]: any
@@ -115,7 +115,7 @@ const response = ref<IResponseConfig>({
   data: [],
 })
 const reActioned = ref<boolean>(false)
-const { normal } = fontSizes
+const { normal } = fontSize
 
 const noData = computed(() => {
   if (!response.value.data?.length && reActioned.value) return true

@@ -1,26 +1,40 @@
-export const styles: AnyObject = {}
+import type { IConfig } from './interface'
+import customConfig from '/uni-comps.config.js'
 
-export const sizes: AnyObject = {
-  mini: '40rpx',
-  small: '56rpx',
-  normal: '72rpx',
-  large: '88rpx',
-}
+export function useStyle(attribute: AnyObject, componentNames: string[]) {
+  const style: AnyObject = {}
 
-export const fontSizes: AnyObject = {
-  mini: '24rpx',
-  small: '28rpx',
-  normal: '32rpx',
-  large: '36rpx',
-}
-
-function style(style: AnyObject, componentNames: string[]) {
   for (let i = 0; i < componentNames.length; i++) {
     const name = componentNames[i]
-    styles[name] = style
+
+    style[name] = attribute
   }
+  return style
 }
-style({
-  paddingLeft: '20rpx',
-  paddingRight: '20rpx',
-}, ['button'])
+
+const defaultConfig: IConfig = {
+  style: {
+    ...useStyle({
+      paddingLeft: '20rpx',
+      paddingRight: '20rpx',
+    }, ['button']),
+  },
+  size: {
+    mini: '40rpx',
+    small: '56rpx',
+    normal: '72rpx',
+    large: '88rpx',
+  },
+  fontSize: {
+    mini: '24rpx',
+    small: '28rpx',
+    normal: '32rpx',
+    large: '36rpx',
+  },
+}
+
+export const style = customConfig.style || defaultConfig.style
+
+export const size = customConfig.size || defaultConfig.size
+
+export const fontSize = customConfig.fontSize || defaultConfig.fontSize

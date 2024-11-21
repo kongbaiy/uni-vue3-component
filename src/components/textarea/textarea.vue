@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-import { fontSizes, styles } from '../common/config'
+import { fontSize, style } from '../common/config'
 
 interface IProps {
   modelValue?: string
@@ -32,12 +32,12 @@ withDefaults(defineProps<IProps>(), {
   padding: '12rpx 20rpx',
   height: '240rpx',
   borderRadius: '8rpx',
-  ...styles.textarea,
+  ...style.textarea,
 })
 const emits = defineEmits(['update:modelValue'])
 
 const wordNumber = ref<number>(0)
-const { small, normal } = fontSizes
+const { small, normal } = fontSize
 
 function handleTextareaInput(e: any) {
   wordNumber.value = e.target.value.length

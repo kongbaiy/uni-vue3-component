@@ -47,7 +47,7 @@
 <script lang="ts" setup name="Popup">
 import { type Ref, ref, watch, watchPostEffect } from 'vue'
 import { NodeSelector } from '../common/index'
-import { fontSizes } from '../common/config'
+import { fontSize } from '../common/config'
 
 import customIcon from '../icon/icon.vue'
 
@@ -76,7 +76,7 @@ const emits = defineEmits<(e: 'update:modelValue', value: boolean) => void>()
 const show = ref<boolean>(false)
 const active: Ref = ref<boolean>(false)
 const getNode = new NodeSelector()
-const { large } = fontSizes
+const { large } = fontSize
 
 watch(() => props.modelValue, (newValue: IProps['modelValue']) => {
   if (newValue) show.value = true

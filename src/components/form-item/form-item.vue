@@ -26,7 +26,7 @@ import { computed, getCurrentInstance, ref } from 'vue'
 import type { ComponentInternalInstance } from 'vue'
 import type { Layout } from '../form/form.vue'
 
-import { fontSizes } from '../common/config'
+import { fontSize } from '../common/config'
 
 interface IProps {
   prop?: string
@@ -49,7 +49,7 @@ const { exposed } = instance.parent || {}
 const { gap } = exposed
 const newLayout: IProps['layout'] = (exposed?.layout || props.layout) as Layout
 const message = ref<string>('')
-const { normal } = fontSizes
+const { normal } = fontSize
 
 const labelStyle = computed(() => {
   const { labelWidth, align, labelGap } = props

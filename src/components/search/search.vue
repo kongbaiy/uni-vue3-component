@@ -38,7 +38,7 @@
 
 <script lang="ts" setup name="Search">
 import { ref, watch } from 'vue'
-import { fontSizes, styles } from '../common/config'
+import { fontSize, style } from '../common/config'
 
 import customIcon from '../icon/icon.vue'
 
@@ -65,13 +65,13 @@ const props = withDefaults(defineProps<IProps>(), {
   borderColor: '#ddd',
   background: '#fff',
   borderRadius: '34rpx',
-  ...styles.search,
+  ...style.search,
 })
 const emits = defineEmits(['input', 'input:debounce', 'focus', 'blur', 'confirm', 'update:debounce'])
 
 const inputValue = ref<string>('')
 const newFocus = ref<boolean>(false)
-const { normal } = fontSizes
+const { normal } = fontSize
 
 const inputDebounce = debounce((value: string) => {
   emits('input:debounce'!, value)

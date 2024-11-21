@@ -19,7 +19,7 @@
 <script lang="ts">
 import { type ComponentInternalInstance, getCurrentInstance } from 'vue'
 import type { FormType, Size, Type } from '../common/type/button'
-import { fontSizes, sizes, styles } from '../common/config'
+import { fontSize, size, style } from '../common/config'
 
 export default {
   behaviors: ['wx://form-field-button'],
@@ -54,14 +54,14 @@ const props = withDefaults(defineProps<IProps>(), {
   paddingLeft: '36rpx',
   paddingRight: '36rpx',
   radius: '0',
-  ...styles.button,
+  ...style.button,
 })
 const emits = defineEmits(['getphonenumber', 'getuserinfo', 'chooseavatar', 'submit', 'reset', 'click'])
 
 const instance: ComponentInternalInstance | any = getCurrentInstance()
 
-const buttonHeight = sizes[props.size]
-const buttonFontSize = fontSizes[props.size]
+const buttonHeight = size[props.size]
+const buttonFontSize = fontSize[props.size]
 
 function handleClick() {
   const { formType } = props
@@ -80,7 +80,7 @@ function handleClick() {
   emits('click')
 }
 
-function getButtonStyle(): AnyObject {
+function getButtonStyle(): AnyObject | string {
   const { restyle, color, borderColor, background, radius, shadow } = props
 
   if (restyle) return restyle

@@ -37,7 +37,7 @@ import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
 import { NodeSelector } from '../common/index'
 
-import { fontSizes, styles } from '../common/config'
+import { fontSize, style } from '../common/config'
 
 interface IProps {
   title: string
@@ -52,15 +52,17 @@ interface IProps {
 
 const props = withDefaults(defineProps<IProps>(), {
   showMask: true,
-  contentPadding: styles.dialog?.padding || '0 20rpx 20rpx 20rpx',
+  contentPadding: style.dialog?.padding || '0 20rpx 20rpx 20rpx',
   cancelText: '取消',
   confirmText: '确定',
 })
+
 const emits = defineEmits(['update:modelValue', 'cancel', 'confirm'])
+
 const show = ref<boolean>(false)
 const active: Ref = ref<boolean>(false)
 const getNode = new NodeSelector()
-const { normal, large } = fontSizes
+const { normal, large } = fontSize
 
 watch(props, (newProps: any) => {
   const { modelValue } = newProps
