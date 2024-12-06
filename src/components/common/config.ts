@@ -1,16 +1,8 @@
 import type { IConfig } from './interface'
-import customConfig from '/uni-comps.config.js'
+import { useStyle } from './hooks'
 
-export function useStyle(attribute: AnyObject, componentNames: string[]) {
-  const style: AnyObject = {}
-
-  for (let i = 0; i < componentNames.length; i++) {
-    const name = componentNames[i]
-
-    style[name] = attribute
-  }
-  return style
-}
+const uniCompsConfig = import.meta.glob('/uni-comps.config.ts', { eager: true })['/uni-comps.config.ts'] as unknown as AnyObject
+const customConfig = uniCompsConfig.default
 
 const defaultConfig: IConfig = {
   style: {

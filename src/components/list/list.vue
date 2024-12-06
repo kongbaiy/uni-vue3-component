@@ -183,10 +183,10 @@ async function reAction(before?: () => void, after?: () => void) {
 
     const result = await action?.(query)
 
-    reActioned.value = true
     response.value = responseConfig(result)
     emits('update:modelValue', response.value)
   } finally {
+    reActioned.value = true
     after?.()
   }
 }

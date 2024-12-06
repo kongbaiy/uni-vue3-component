@@ -1,4 +1,4 @@
-import { useStyle } from './src/components/common/config'
+import { useStyle } from './src/components/common/hooks'
 import type { IConfig } from './src/components/common/interface'
 
 const config: IConfig = {
