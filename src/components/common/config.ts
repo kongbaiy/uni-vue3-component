@@ -2,7 +2,7 @@ import type { IConfig } from './interface'
 import { useStyle } from './hooks'
 
 const uniCompsConfig = import.meta.glob('/uni-comps.config.ts', { eager: true })['/uni-comps.config.ts'] as unknown as AnyObject
-const customConfig = uniCompsConfig.default
+const customConfig = uniCompsConfig?.default || {}
 
 const defaultConfig: IConfig = {
   style: {
