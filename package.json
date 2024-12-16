@@ -4,6 +4,13 @@
   "description": "uniapp vue3 component",
   "author": "konbai",
   "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./package/common/interface/index.ts"
+    },
+    "./hooks": "./package/common/hooks.ts",
+    "./package/index.css": "./package/index.css"
+  },
   "main": "./package/index",
   "files": [
     "package"
